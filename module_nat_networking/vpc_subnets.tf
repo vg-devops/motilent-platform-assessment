@@ -64,7 +64,10 @@ resource "aws_nat_gateway" "main" {
     Environment = var.var_environment
   }
 
-  depends_on = [local.igw_id]
+  depends_on = [
+        local.igw_id,
+        terraform_data.availability_zones_validator
+    ]
 }
 
 # Adds public route table - there is little caveat that default route table my already include it, but not a show stopper
@@ -107,7 +110,7 @@ resource "aws_route_table_association" "private_subnet" {
   route_table_id = aws_route_table.private.id
 }
 
-resource "terraform_data" "subnets_validator" {
+resource "terraform_data" "availability_zones_validator" {
     lifecycle {
         precondition {
             condition     = local.subnets_are_in_same_az
