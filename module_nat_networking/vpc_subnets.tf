@@ -42,3 +42,27 @@ resource "aws_internet_gateway" "new_igw" {
     Environment = var.var_environment
   }
 }
+
+
+# Creates Elastic IP for NAT GW
+resource "aws_eip" "nat_ip" {
+  domain = "vpc"
+
+  tags = {
+    Name        = "nat-eip-${var.var_environment}"
+    Environment = var.var_environment
+  }
+}
+
+# Creates NAT Gateway
+resource "aws_nat_gateway" "main" {
+  allocation_id = aws_eip.nat_ip.id
+  subnet_id     = data.aws_subnet.public.id
+
+  tags = {
+    Name        = "nat-gateway-${var.var_environment}"
+    Environment = var.var_environment
+  }
+
+  depends_on = [local.igw_id]
+}
