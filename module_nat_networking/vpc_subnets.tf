@@ -96,3 +96,13 @@ resource "aws_route_table" "private" {
     Environment = var.var_environment
   }
 }
+
+resource "aws_route_table_association" "public_subnet" {
+  subnet_id      = data.aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "private_subnet" {
+  subnet_id      = data.aws_subnet.private.id
+  route_table_id = aws_route_table.private.id
+}
