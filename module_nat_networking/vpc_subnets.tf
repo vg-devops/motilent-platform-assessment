@@ -25,10 +25,20 @@ data "aws_subnet" "private" {
 }
 
 # Check if Inet gateway does exist
-# Check for existing IGW
 data "aws_internet_gateway" "does_exists" {
   filter {
     name   = "attachment.vpc-id"
     values = [data.aws_vpc.existing_vpc.id]
+  }
+}
+
+# Creat Inet GW if does not exist
+resource "aws_internet_gateway" "new_igw" {
+  count = try(data.aws_internet_gateway.does_exists.id, "") == "" ? 1 : 0
+  vpc_id = data.aws_vpc.existing_vpc.id
+
+  tags = {
+    Name        = "igw-${var.var_environment}"
+    Environment = var.var_environment
   }
 }
