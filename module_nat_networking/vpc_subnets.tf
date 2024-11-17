@@ -106,3 +106,12 @@ resource "aws_route_table_association" "private_subnet" {
   subnet_id      = data.aws_subnet.private.id
   route_table_id = aws_route_table.private.id
 }
+
+resource "terraform_data" "subnets_validator" {
+    lifecycle {
+        precondition {
+            condition     = local.subnets_are_in_same_az
+            error_message = local.error_in_validation_message
+        }
+  }
+}
