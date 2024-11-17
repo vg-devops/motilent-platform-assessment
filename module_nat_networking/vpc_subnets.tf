@@ -66,3 +66,18 @@ resource "aws_nat_gateway" "main" {
 
   depends_on = [local.igw_id]
 }
+
+# Adds public route table - there is little caveat that default route table my already include it, but not a show stopper
+resource "aws_route_table" "public" {
+  vpc_id = data.aws_vpc.existing_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = local.igw_id
+  }
+
+  tags = {
+    Name        = "rt-public-${var.var_environment}"
+    Environment = var.var_environment
+  }
+}
