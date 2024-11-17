@@ -81,3 +81,18 @@ resource "aws_route_table" "public" {
     Environment = var.var_environment
   }
 }
+
+# Adds private route table
+resource "aws_route_table" "private" {
+  vpc_id = data.aws_vpc.existing_vpc.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.main.id
+  }
+
+  tags = {
+    Name        = "rt-private-${var.var_environment}"
+    Environment = var.var_environment
+  }
+}
