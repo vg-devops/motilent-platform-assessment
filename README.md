@@ -4,7 +4,7 @@ This Terraform module configures networking components in the existing VPC, incl
 
 ## Vagif Gafarov, Module Badges
 
-[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://choosealicense.com/licenses/gpl-3.0/)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
 
